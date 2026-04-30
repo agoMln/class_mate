@@ -405,7 +405,7 @@
   <!-- NAV -->
   <nav id="nav">
     <a class="nav-logo" href="#">Class<span>-</span>Mate</a>
-    <a class="nav-cta" href="https://classmateunc.lovable.app/auth" target="_blank">Join Now</a>
+    <a class="nav-cta" href="#" onclick="showModal(event)">Join Now</a>
   </nav>
 
   <!-- HERO -->
@@ -414,7 +414,7 @@
     <h1 class="hero-title">Find the <em>right</em> person in your class.</h1>
     <p class="hero-sub">Not just anyone. The exact person with the right background, the right experience, and the right goals — in seconds.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="https://classmateunc.lovable.app/auth" target="_blank">Join Class-Mate &rarr;</a>
+      <a class="btn-primary" href="#" onclick="showModal(event)">Join Class-Mate &rarr;</a>
     </div>
     <div class="hero-rule" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -486,14 +486,75 @@
     <p class="cta-banner-eyebrow">Join your class</p>
     <h2 class="cta-banner-title">Stop guessing.<br><em>Start finding.</em></h2>
     <p class="cta-banner-body">Set up your profile in minutes. Your classmates are already searching for someone like you.</p>
-    <a class="btn-primary" href="https://classmateunc.lovable.app/auth" target="_blank">Join Class-Mate &rarr;</a>
+    <a class="btn-primary" href="#" onclick="showModal(event)">Join Class-Mate &rarr;</a>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <span>© 2025 Class-Mate</span>
-    <a href="https://classmateunc.lovable.app/auth" target="_blank">classmateunc.lovable.app</a>
+    <a href="#" onclick="showModal(event)">classmateunc.lovable.app</a>
   </footer>
+
+  <!-- CREDENTIALS MODAL -->
+  <div id="modal-overlay" onclick="closeModal(event)" style="
+    display:none; position:fixed; inset:0; z-index:999;
+    background:rgba(19,41,75,0.55); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
+  ">
+    <div id="modal-box" style="
+      background:#fff; border-radius:4px; padding:2.5rem 2.8rem;
+      width:min(420px, 90vw); position:relative;
+      box-shadow:0 24px 64px rgba(19,41,75,0.22);
+      animation: modalIn 0.28s cubic-bezier(.22,1,.36,1) both;
+    ">
+      <!-- close -->
+      <button onclick="closeModal()" style="
+        position:absolute; top:1rem; right:1.2rem;
+        background:none; border:none; cursor:pointer;
+        font-size:1.3rem; color:#4a6580; line-height:1;
+      ">&times;</button>
+
+      <!-- header -->
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#4b9cd3;font-family:'DM Sans',sans-serif;font-weight:500;margin-bottom:0.6rem;">Demo access</p>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#13294b;margin-bottom:0.4rem;">Use these credentials</h3>
+      <p style="font-size:0.88rem;color:#4a6580;font-family:'DM Sans',sans-serif;margin-bottom:1.8rem;">Log in with the account below to explore Class-Mate.</p>
+
+      <!-- email -->
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#4a6580;font-family:'DM Sans',sans-serif;margin-bottom:0.35rem;">Email</label>
+        <div style="display:flex;align-items:center;gap:0.75rem;background:#f4f8fb;border:1px solid #cce4f4;padding:0.7rem 1rem;border-radius:3px;">
+          <span id="email-val" style="flex:1;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#13294b;">admin@unc.edu</span>
+          <button onclick="copyText('email-val', this)" style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#4b9cd3;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+
+      <!-- password -->
+      <div style="margin-bottom:2rem;">
+        <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#4a6580;font-family:'DM Sans',sans-serif;margin-bottom:0.35rem;">Password</label>
+        <div style="display:flex;align-items:center;gap:0.75rem;background:#f4f8fb;border:1px solid #cce4f4;padding:0.7rem 1rem;border-radius:3px;">
+          <span id="pw-val" style="flex:1;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#13294b;">Test1234!</span>
+          <button onclick="copyText('pw-val', this)" style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#4b9cd3;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+
+      <!-- cta -->
+      <a href="https://classmateunc.lovable.app/auth" target="_blank" style="
+        display:block;text-align:center;text-decoration:none;
+        background:#13294b;color:#fff;padding:0.9rem;
+        font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;
+        letter-spacing:0.05em;transition:background 0.2s;border-radius:2px;
+      " onmouseover="this.style.background='#4b9cd3'" onmouseout="this.style.background='#13294b'">
+        Go to Class-Mate &rarr;
+      </a>
+    </div>
+  </div>
+
+  <style>
+    @keyframes modalIn {
+      from { opacity:0; transform:translateY(18px) scale(0.97); }
+      to   { opacity:1; transform:none; }
+    }
+  </style>
 
   <script>
     // Nav scroll
@@ -513,6 +574,31 @@
       });
     }, { threshold: 0.12 });
     reveals.forEach(el => observer.observe(el));
+
+    // Modal
+    const overlay = document.getElementById('modal-overlay');
+    function showModal(e) {
+      if (e) e.preventDefault();
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(e) {
+      if (e && e.target !== overlay) return;
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { overlay.style.display='none'; document.body.style.overflow=''; }});
+
+    // Copy helper
+    function copyText(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.color = '#13294b';
+        setTimeout(() => { btn.textContent = orig; btn.style.color = '#4b9cd3'; }, 1800);
+      });
+    }
   </script>
 
 </body>
